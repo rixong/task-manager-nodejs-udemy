@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const { ObjectID, ObjectId } = require('mongodb');
-// const validator = require('validator');
 
 const taskSchema = new mongoose.Schema({
   description: {
@@ -17,13 +15,15 @@ const taskSchema = new mongoose.Schema({
     required: true,
     ref: 'User'
   }
+}, {
+  timestamps: true
 })
 
 const Task = mongoose.model('Task', taskSchema)
 
-taskSchema.pre('save', async function(next) {
-  this.save();
-  next()
-})
+// taskSchema.pre('save', async function(next) {
+//   this.save();
+//   next()
+// })
 
 module.exports = Task
