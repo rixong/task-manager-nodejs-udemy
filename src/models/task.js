@@ -10,7 +10,7 @@ const taskSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  owner: {
+  owner: {   // sets up a field for ownerID associated with task (task beongs to owner)
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'User'
@@ -20,10 +20,5 @@ const taskSchema = new mongoose.Schema({
 })
 
 const Task = mongoose.model('Task', taskSchema)
-
-// taskSchema.pre('save', async function(next) {
-//   this.save();
-//   next()
-// })
 
 module.exports = Task

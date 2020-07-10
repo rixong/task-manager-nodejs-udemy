@@ -52,12 +52,15 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 })
 
+// Sets up a virtual field to retrieve a user's tasks - User has many tasks
 userSchema.virtual('tasks', {
   ref: 'Task',
-  localField: '_id',
-  foreignField: 'owner'
+  localField: '_id',     // field in user doc. binds to task
+  foreignField: 'owner' //this is the field in task document
 })
 
+
+// Strips password and tokens from User before sending to client
 userSchema.methods.toJSON = function () {
   const user = this;
   const userObject = user.toObject();
@@ -70,7 +73,7 @@ userSchema.methods.toJSON = function () {
 
 userSchema.methods.generateAuthToken = async function () {
   const user = this
-  const token = jwt.sign({ _id: user._id.toString() }, 'thisismynewcourse')
+  const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET)
   user.tokens = user.tokens.concat({ token });
   await user.save();
   return token;
@@ -105,6 +108,6 @@ userSchema.pre('remove', async function (next) {
   next();
 })
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)   /// ??? does it matter what 1st agr is called?
 
 module.exports = User

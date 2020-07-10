@@ -1,11 +1,11 @@
 const express = require('express');
-
 require('./db/mongoose');
+
 const userRouter = require('./routers/user')
 const taskRouter = require('./routers/task')
 
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT
 
 app.use(express.json());
 app.use(userRouter);
@@ -15,8 +15,16 @@ app.listen(port, () => {
   console.log("My Server is listening on port: " + port);
 });
 
-const Task = require('./models/task')
-const User = require('./models/user');
+
+const multer = require('multer');
+upload = multer({
+  dest: 'images'
+})
+
+app.post('/upload', upload.single('upload'), (req, res) => {
+  res.send();
+})
+
 
 // const main = async () => {
   // const task = await Task.findById('5ef7775d3c9a5ffc408f8d13')
